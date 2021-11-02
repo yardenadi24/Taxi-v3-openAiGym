@@ -1,5 +1,4 @@
-import numpy as np;
-import gym;
+import numpy as np
 
 def modify_env(env):
 

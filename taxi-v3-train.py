@@ -8,13 +8,10 @@ env = gym.make("Taxi-v3")
 
 #how many action for each state
 actionSize = env.action_space.n
-
 #how many states there is
-stateSize = env.observation_space.np_random
-
+stateSize = env.observation_space
 #discount factor:
 discount = 0.95
-
 numOfEpisodes = 200
 
 #S: set of steps
@@ -70,3 +67,33 @@ def policy_improvement(V,S,A,R,P):
         policy[s] = max(Q,key=Q.get)
         
     return policy 
+
+def modify_env(env):
+    
+    def new_reset(state=None):
+        env.orig_reset()  
+        if state is not None:
+            env.env.s = state
+        return np.array(env.env.s)
+    
+    env.orig_reset =  env.reset
+    env.reset = new_reset
+    P={}
+    R={}
+    for s in range (0,500):
+        P[s]={0:0,1:0,2:0,3:0,4:0,5:0}
+        R[s]={0:0,1:0,2:0,3:0,4:0,5:0}
+        env.reset(s)
+        for a in range (0,6):
+            env.env.state = s
+            P[s][a] = env.step(a)[0]
+            env.env.state = s
+            R[s][a] = env.step(a)[1]
+        
+
+    print(env.P[1])
+    print(P[1])
+    print(R[1])
+    return env ,P ,R
+
+modify_env(env)    

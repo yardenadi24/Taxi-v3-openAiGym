@@ -1,6 +1,8 @@
+
 import gym
 import random as rnd
 import numpy as np
+import time
 
 
 
@@ -126,6 +128,8 @@ def print_iter(iter,env,step):
 
 
 def rand_sim(policy,env,P,R):
+    print("Starting random simulation:")
+    time.sleep(2)
     s = rnd.randint(0,499)
     to_print={}
     env.reset(s)
@@ -143,8 +147,10 @@ def rand_sim(policy,env,P,R):
     reward = R[s][a]
     total_Reward = total_Reward+reward
     s = P[s][a][0]
+    time.sleep(1)
     env.render()
     while not(terminate):
+        time.sleep(1)
         a  = policy[s]
         data = env.step(a)
         env.render()
